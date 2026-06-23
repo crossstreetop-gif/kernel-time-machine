@@ -1,0 +1,60 @@
+========================================================
+== dumpstate: 2024-10-03 17:19:54
+========================================================
+Build: SM-S928N/DM3Q/userdebug 14 UP1A.231005.007
+Kernel: Linux version 6.1.43-android14 (SM8650)
+Uptime: up 1 day, 4:32
+
+------ SYSTEM LOG (logcat -b system) ------
+10-03 17:18:51.002  1402  1402 I dumpstate: begin
+10-03 17:18:40.110   992   992 W ActivityManager: Slow operation: 41ms so far, now at startProcess
+10-03 17:18:41.220  3187  3187 E gralloc4: Camera HAL3 buffer alloc retry (dmabuf heap pressure)
+10-03 17:18:42.870   992  1033 W system_server: Long monitor contention with owner Binder:992_3
+10-03 17:18:44.005   992   992 E Watchdog: !@*** WATCHDOG KILLING SYSTEM PROCESS: blocked in monitor
+
+------ EVENT LOG (logcat -b events) ------
+10-03 17:18:30.441   992   992 I screen_toggled: 1
+10-03 17:18:43.882   992   992 I am_anr: [0,3187,com.sec.android.app.camera,ANR Input dispatching timed out]
+
+------ KERNEL LOG (dmesg) ------
+<6>[103240.114220] c0    73 PM: suspend exit 2024-10-03 17:15:10.300455702 UTC
+<6>[103244.882010] c3  3187 i2c-msm-geni a94000.i2c: GENI: transfer timeout sensor@0x10
+<3>[103244.991233] c3  3187 cam_sensor_core: cci_write failed rc=-110 (ETIMEDOUT) slave 0x10
+<4>[103245.110044] c3  3187 i2c-msm-geni a94000.i2c: failed to reset SE, FIFO stuck
+<3>[103248.220119] c1   201 binder: 992:1033 transaction failed 29189/-22, size 0-0 dead reply
+<4>[103312.884330] c2    44 INFO: task camera@3.0-ser:3187 blocked for more than 122 seconds.
+<4>[103312.884341] c2    44       Tainted: G        W  O      6.1.43-android14 #1
+<4>[103312.884349] c2    44 "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+<4>[103312.884361] c2    44 task:camera@3.0-ser state:D stack:0     pid:3187  ppid:992
+<4>[103312.884377] c2    44 Call trace:
+<4>[103312.884389] c2    44  __switch_to+0x174/0x338
+<4>[103312.884401] c2    44  __schedule+0x5ec/0x9cc
+<4>[103312.884410] c2    44  schedule+0x7c/0xe8
+<4>[103312.884419] c2    44  rwsem_down_write_slowpath+0x3a8/0x780
+<4>[103312.884430] c2    44  down_write+0x84/0x88
+<4>[103312.884441] c2    44  cci_release+0x40/0x140 [cam_cci]
+<4>[103312.884455] c2    44  cam_sensor_release+0xb8/0x210 [cam_sensor]
+<0>[103366.991002] c5   201 rcu: INFO: rcu_sched self-detected stall on CPU
+<0>[103366.991045] c5   201 rcu: \t3-....: (5249 ticks this GP) idle=... softirq=...
+<0>[103366.991066] c5   201 rcu: \t(t=5250 jiffies g=998421 q=10245)
+<2>[103372.110338] c5   201 watchdog: Watchdog detected hard LOCKUP on cpu 3
+<0>[103380.000110] c0     0 Hardware watchdog 'msm_watchdog' triggered: bark
+<0>[103380.000142] c0     0 msm_watchdog: Causing a system reset due to watchdog bite
+<0>[103380.005000] c0     0 Kernel panic - not syncing: Watchdog bite: software detected lockup
+
+------ DUMPSYS (cpuinfo) ------
+Load: 8.42 / 7.91 / 6.30
+  98% 3187/camera@3.0-ser: 12% user + 86% kernel
+  41% 992/system_server: 8% user + 33% kernel
+
+------ DUMPSYS (batterystats) ------
+  Discharge step durations:
+  Estimated power use (mAh): Capacity: 5000, Computed drain: 412, actual: 398
+    Camera: 188 (cpu=120 sensor=68)
+    Cell standby: 41
+
+------ DUMPSYS (meminfo) ------
+Total RAM: 11,800,000K
+ Free RAM: 412,008K
+ Used RAM: 9,221,440K
+   dmabuf heap: pressure HIGH (camera reserved 640MB)

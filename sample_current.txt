@@ -1,0 +1,46 @@
+========================================================
+== dumpstate: 2024-10-04 09:02:11
+========================================================
+Build: SM-S928N/DM3Q/userdebug 14 UP1A.231005.007
+Kernel: Linux version 6.1.43-android14 (SM8650)
+Uptime: up 0 day, 8:14
+
+------ SYSTEM LOG (logcat -b system) ------
+10-04 09:01:55.301  1402  1402 I dumpstate: begin
+10-04 08:30:12.880   992   992 W PowerManagerService: Wakelock acquired: AudioMix held 3611s
+10-04 08:31:02.110   910   910 E audio_hw_primary: SLIMbus port not released, codec stays active
+10-04 08:33:40.220   992   992 W PowerManagerService: suspend blocked by wakelock 'AudioMix'
+
+------ EVENT LOG (logcat -b events) ------
+10-04 08:29:50.441   992   992 I screen_toggled: 0
+10-04 08:30:01.882   992   992 I battery_level: 88,4012
+
+------ KERNEL LOG (dmesg) ------
+<6>[ 1240.114220] c0    73 PM: suspend entry 2024-10-04 08:29:55.300455702 UTC
+<3>[ 1240.884010] c3   910 regulator: vreg_l9c_audio: failed to disable: still in use by codec
+<4>[ 1241.991233] c3   910 msm-slimbus: port teardown timeout, channel 14 active
+<3>[ 1242.110044] c3    73 PM: Some devices failed to suspend, or early wake event detected
+<6>[ 1242.220119] c0    73 PM: suspend exit 2024-10-04 08:29:57.430138580 UTC
+<4>[ 1242.884330] c2    73 PM: suspend entry retry #2 aborted (wakeup pending: AudioMix)
+<6>[ 4901.114000] c0    73 PM: suspend entry 2024-10-04 09:01:30.000000000 UTC
+<3>[ 4901.884100] c3   910 regulator: vreg_l9c_audio: failed to disable: still in use by codec
+<6>[ 4902.220000] c0    73 PM: suspend exit 2024-10-04 09:01:31.500000000 UTC
+
+------ DUMPSYS (cpuinfo) ------
+Load: 0.84 / 0.91 / 1.10
+  6% 910/audioserver: 5% user + 1% kernel
+  3% 992/system_server: 2% user + 1% kernel
+
+------ DUMPSYS (batterystats) ------
+  Discharge step durations:
+  Estimated power use (mAh): Capacity: 5000, Computed drain: 980, actual: 1024
+    Audio: 612 (cpu=90 codec=522)
+    Cell standby: 88
+  Wakelock summary:
+    AudioMix: 3611s realtime (held across 2 suspend attempts)
+  Battery: level dropped 88% -> 61% in 32min screen-off
+
+------ DUMPSYS (meminfo) ------
+Total RAM: 11,800,000K
+ Free RAM: 6,002,440K
+ Used RAM: 4,210,118K
